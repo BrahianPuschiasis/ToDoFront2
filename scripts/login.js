@@ -40,7 +40,7 @@ window.addEventListener('load', function () {
     /*                     FUNCIÓN 2: Realizar el login [POST]                    */
     /* -------------------------------------------------------------------------- */
     function realizarLogin(settings) {
-    console.log("lanzanndo la consulta a la API");
+    console.log("lanzando la consulta a la API");
 
     fetch(`${url}/users/login`, settings)
     .then(response =>{
