@@ -2,35 +2,69 @@
 // no lo deja acceder a la página, redirigiendo al login inmediatamente.
 
 
+if(!localStorage.jwt){
+  alert("adonde vas vos?")
+  location.replace("./index.html");
+}
+
+
 
 /* ------ comienzan las funcionalidades una vez que carga el documento ------ */
 window.addEventListener('load', function () {
 
   /* ---------------- variables globales y llamado a funciones ---------------- */
-  
+  const urlTareas="https://todo-api.ctd.academy/v1/tasks";
+  const urlUsuario="https://todo-api.ctd.academy/v1/users/getMe";
+  const token = JSON.parse(localStorage.jwt);
+
+  const formCrearTarea= document.querySelector(".nueva-tarea");
+  const nuevaTarea=document.querySelector("#nuevaTarea");
+  const btnCerrarSesion=document.querySelector("#closeApp");
+
+  obtenerNombreUsuario();
+  // consultarTareas();
+
+
+
+
+
 
 
   /* -------------------------------------------------------------------------- */
   /*                          FUNCIÓN 1 - Cerrar sesión                         */
   /* -------------------------------------------------------------------------- */
+  btnCerrarSesion.addEventListener("click",()=>{
+    const cerrarSesion=confirm("Desea cerrar sesión");
+    if(cerrarSesion){
+      localStorage.clear();
+      location.replace("./index.html");
+    }
+  })
 
-  btnCerrarSesion.addEventListener('click', function () {
-   
-
-
-
-  });
 
   /* -------------------------------------------------------------------------- */
   /*                 FUNCIÓN 2 - Obtener nombre de usuario [GET]                */
   /* -------------------------------------------------------------------------- */
+  function obtenerNombreUsuario(){
+    const settings={
+      method:"GET",
+      headers:{
+        authorization:token,
+      }
+    };
 
-  function obtenerNombreUsuario() {
-   
+    console.log("Consultando el usuario");
 
-
-
-  };
+    fetch(urlUsuario,settings)
+    .then(response=>response.json())
+    .then(data=>{
+      console.log("Nombre de usuario");
+      console.log(data.firstName);
+      const nombreUsuario=document.querySelector(".user-info p");
+      nombreUsuario.innerText=data.firstName;
+    })
+    .catch(error=>console.log(error));
+  }
 
 
   /* -------------------------------------------------------------------------- */
