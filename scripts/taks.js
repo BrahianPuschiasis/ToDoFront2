@@ -22,7 +22,7 @@ window.addEventListener('load', function () {
   const btnCerrarSesion=document.querySelector("#closeApp");
 
   obtenerNombreUsuario();
-  // consultarTareas();
+  consultarTareas();
 
 
 
@@ -73,8 +73,24 @@ window.addEventListener('load', function () {
 
   function consultarTareas() {
     
+    const settings = {
+      method: "GET", 
+      headers:{
+        authorization: token,
+      }
+    };
     
+    console.log("Consultando tareas");
 
+    fetch(urlTareas, settings)
+    .then(response=> response.json())
+    .then(tareas=>{
+      console.log("Tarea");
+      console.table(tareas);
+ 
+      
+    })
+    .catch(error => console.log(error))
 
 
   };
