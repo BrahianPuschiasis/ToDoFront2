@@ -20,11 +20,10 @@ window.addEventListener('load', function () {
   const formCrearTarea= document.querySelector(".nueva-tarea");
   const nuevaTarea=document.querySelector("#nuevaTarea");
   const btnCerrarSesion=document.querySelector("#closeApp");
-  const btnCrearTarea = this.document.querySelector(".fa-solid fa-pencil")
 
   obtenerNombreUsuario();
   consultarTareas();
-
+ 
 
 
 
@@ -88,8 +87,8 @@ window.addEventListener('load', function () {
     .then(tareas=>{
       console.log("Tarea");
       console.table(tareas);
- 
-      
+      renderizarTareas(tareas);
+
     })
     .catch(error => console.log(error))
 
@@ -153,8 +152,23 @@ console.log(err);
   function renderizarTareas(listado) {
 
 
+console.log("paso por aca")
+console.table(listado)
 
+    const verTarea = document.querySelector('.tareas-pendientes');
+    verTarea.innerHTML = '';
 
+    listado.forEach(tarea=>{
+      verTarea.innerHTML += `
+
+    <li class = "tarea aos-init aos-animate" data-aos="flip-up"> </li>
+    <button class="change"> <i class = "fa-regular fa-circle"> </i> </button> <div class = "desripcion"> <p class = "nombre"> ${tarea.description} </p>
+    <p class = "timestamp"> ${tarea.createdAt} </p>
+    </div>`
+     
+         
+     
+  })
 
 
 
