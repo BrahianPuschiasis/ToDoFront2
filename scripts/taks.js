@@ -11,7 +11,7 @@ if(!localStorage.jwt){
 
 /* ------ comienzan las funcionalidades una vez que carga el documento ------ */
 window.addEventListener('load', function () {
-
+  AOS.init();
   /* ---------------- variables globales y llamado a funciones ---------------- */
   const urlTareas="https://todo-api.ctd.academy/v1/tasks";
   const urlUsuario="https://todo-api.ctd.academy/v1/users/getMe";
@@ -88,6 +88,7 @@ window.addEventListener('load', function () {
       console.log("Tarea");
       console.table(tareas);
       renderizarTareas(tareas);
+      botonBorrarTarea();
 
     })
     .catch(error => console.log(error))
@@ -185,6 +186,13 @@ console.table(listado)
               </div>
             </div>
           </li>`
+
+          const borrarTarea= document.querySelector(".borrar");
+          borrarTarea.addEventListener('submit', (e)=> {
+            e.preventDefault();  
+          })
+
+
       }
       else{
       
@@ -212,7 +220,7 @@ console.table(listado)
   function botonesCambioEstado() {
     
     
-
+    
 
 
   }
@@ -222,11 +230,49 @@ console.table(listado)
   /*                     FUNCIÓN 7 - Eliminar tarea [DELETE]                    */
   /* -------------------------------------------------------------------------- */
   function botonBorrarTarea() {
-    
-    
+    //obtenemos los botones de borrado
+    const btnBorrarTarea = document.querySelectorAll('.borrar');
 
-    
+    btnBorrarTarea.forEach(boton => {
+      //a cada boton de borrado le asignamos la funcionalidad
+      boton.addEventListener('click', function (event) {
+        Swal.fire({
+          title: '¿Confirma eliminar la tarea?',
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Confirmar',
+          cancelButtonText: 'Cancelar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            /* -------------------- disparamos el fetch para eliminar ------------------- */
+            const id = event.target.id;
+            const url = `${urlTareas}/${id}`
 
-  };
+            const settingsCambio = {
+              method: 'DELETE',
+              headers: {
+                "Authorization": token,
+              }
+            }
+            fetch(url, settingsCambio)
+              .then(response => {
+                console.log("Borrando tarea...");
+                console.log(response.status);
+                //vuelvo a consultar las tareas actualizadas y pintarlas nuevamente en pantalla
+                consultarTareas();
+              })
 
-});
+            Swal.fire(
+              'Tarea eliminada.',
+            );
+
+          }
+        });
+
+      })
+    });
+  }
+
+})
