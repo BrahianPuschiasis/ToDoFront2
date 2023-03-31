@@ -158,15 +158,47 @@ console.table(listado)
     const verTarea = document.querySelector('.tareas-pendientes');
     verTarea.innerHTML = '';
 
+    const verTareaTerminada = document.querySelector('.tareas-terminadas');
+    verTareaTerminada.innerHTML = '';
+    const TareaNumero = document.querySelector("#cantidad-finalizadas")
+
+
+
+
+
     listado.forEach(tarea=>{
+      let fecha = new Date(tarea.createdAt);
+
+      if (tarea.completed){
+        TareaNumero.innerText++;
+        verTareaTerminada.innerHTML += `
+        
+        <li class="tarea" data-aos="flip-up">
+            <div class="hecha">
+              <i class="fa-regular fa-circle-check"></i>
+            </div>
+            <div class="descripcion">
+              <p class="nombre">${tarea.description}</p>
+              <div class="cambios-estados">
+                <button class="change incompleta" id="${tarea.id}" ><i class="fa-solid fa-rotate-left"></i></button>
+                <button class="borrar" id="${tarea.id}"><i class="fa-regular fa-trash-can"></i></button>
+              </div>
+            </div>
+          </li>`
+      }
+      else{
+      
       verTarea.innerHTML += `
 
-    <li class = "tarea aos-init aos-animate" data-aos="flip-up"> </li>
-    <button class="change"> <i class = "fa-regular fa-circle"> </i> </button> <div class = "desripcion"> <p class = "nombre"> ${tarea.description} </p>
-    <p class = "timestamp"> ${tarea.createdAt} </p>
-    </div>`
+      <li class="tarea" data-aos="flip-up">
+      <button class="change" id="${tarea.id}"><i class="fa-regular fa-circle"></i></button>
+      <div class="descripcion">
+        <p class="nombre">${tarea.description}</p>
+        <p class="timestamp">${fecha.toLocaleDateString()}</p>
+      </div>
+    </li>`
      
-         
+      }
      
   })
 
@@ -190,7 +222,7 @@ console.table(listado)
   /*                     FUNCIÓN 7 - Eliminar tarea [DELETE]                    */
   /* -------------------------------------------------------------------------- */
   function botonBorrarTarea() {
-   
+    
     
 
     
