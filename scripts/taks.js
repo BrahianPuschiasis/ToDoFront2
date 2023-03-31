@@ -127,7 +127,7 @@ headers:{
     fetch(urlTareas, settings)
     .then(response =>{
 console.log(response);
-
+consultarTareas();
 return response.json();
 })
 .then(data=>{
