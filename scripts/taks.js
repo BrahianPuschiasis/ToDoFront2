@@ -20,6 +20,7 @@ window.addEventListener('load', function () {
   const formCrearTarea= document.querySelector(".nueva-tarea");
   const nuevaTarea=document.querySelector("#nuevaTarea");
   const btnCerrarSesion=document.querySelector("#closeApp");
+  const btnCrearTarea = this.document.querySelector(".fa-solid fa-pencil")
 
   obtenerNombreUsuario();
   consultarTareas();
@@ -100,9 +101,46 @@ window.addEventListener('load', function () {
   /*                    FUNCIÓN 4 - Crear nueva tarea [POST]                    */
   /* -------------------------------------------------------------------------- */
 
-  formCrearTarea.addEventListener('submit', function (event) {
-    
+  formCrearTarea.addEventListener('submit', (e)=> {
+    e.preventDefault();  
 
+/////
+const payload = 
+{
+    description: nuevaTarea.value,
+    completed: false,
+  }
+
+const settings  = {
+method:"POST",
+body: JSON.stringify(payload),
+headers:{
+    'Content-Type': 'application/json',
+      authorization: token,
+}
+
+
+};
+/////
+
+    console.log("lanzando la consulta a la API");
+        
+    fetch(urlTareas, settings)
+    .then(response =>{
+console.log(response);
+
+return response.json();
+})
+.then(data=>{
+
+    console.log(data)
+    
+})
+
+.catch(err=>{
+console.log("Promesa rechazada");
+console.log(err);
+})
 
 
 
