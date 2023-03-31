@@ -88,6 +88,7 @@ window.addEventListener('load', function () {
       console.log("Tarea");
       console.table(tareas);
       renderizarTareas(tareas);
+      botonesCambioEstado();
       botonBorrarTarea();
 
     })
@@ -187,10 +188,8 @@ console.table(listado)
             </div>
           </li>`
 
-          const borrarTarea= document.querySelector(".borrar");
-          borrarTarea.addEventListener('submit', (e)=> {
-            e.preventDefault();  
-          })
+
+   
 
 
       }
@@ -220,7 +219,60 @@ console.table(listado)
   function botonesCambioEstado() {
     
     
+
+    const btnCambiarIncompleta = document.querySelectorAll('.change');
+
     
+    btnCambiarIncompleta.forEach(boton => {
+      boton.addEventListener('click', function (event) {
+        const id = event.target.id;
+        const url = `${urlTareas}/${id}`
+////////////
+        const settings = {
+          method: "GET", 
+          headers:{
+            authorization: token,
+          }
+        };
+        
+    
+        fetch(url, settings)
+        .then(response=> response.json())
+        .then(tareas=>{
+
+          
+          const payload =  {};
+
+          payload.completed = !tareas.completed;
+          
+                      const settingsCambio = {
+                        method: 'PUT',
+                        headers: {
+                          "Authorization": token,
+                          "Content-type": "application/json"
+                        },
+                        body: JSON.stringify(payload),
+          
+                      }
+                      fetch(url, settingsCambio)
+                        .then(response => {
+                          console.log("Cambiando tarea...");
+                          console.log(response.status);
+                          consultarTareas();
+                        })
+          
+          
+
+        
+        })
+
+
+        /////////////////
+
+
+      })
+
+    })
 
 
   }
