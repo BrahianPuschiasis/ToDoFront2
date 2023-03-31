@@ -157,7 +157,7 @@ console.table(listado)
 
     const verTarea = document.querySelector('.tareas-pendientes');
     verTarea.innerHTML = '';
-
+    let contador = 0;
     const verTareaTerminada = document.querySelector('.tareas-terminadas');
     verTareaTerminada.innerHTML = '';
     const TareaNumero = document.querySelector("#cantidad-finalizadas")
@@ -170,7 +170,7 @@ console.table(listado)
       let fecha = new Date(tarea.createdAt);
 
       if (tarea.completed){
-        TareaNumero.innerText++;
+        contador++;
         verTareaTerminada.innerHTML += `
         
         <li class="tarea" data-aos="flip-up">
@@ -202,7 +202,7 @@ console.table(listado)
      
   })
 
-
+  TareaNumero.innerText = contador;
 
   };
 
